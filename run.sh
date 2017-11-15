@@ -167,5 +167,18 @@ fi
 # Set custom memory options for tomcat
 export JAVA_OPTS="-Dfile.encoding=UTF-8 -server -Xms256m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
 
-# Run tomcat
-catalina.sh run
+if [ -z ${DEBUGGING+x} ]; then
+    echo "Debugging will not be enabled for this container.";
+
+	# Run tomcat
+	catalina.sh run
+else
+    # ------------ Begin Debugging Configuration -----------------
+	export JPDA_ADDRESS=8000
+	export JPDA_TRANSPORT=dt_socket
+	
+    # ------------ End Debugging Configuration -----------------
+	
+	# Run tomcat
+	catalina.sh jpda run
+fi
