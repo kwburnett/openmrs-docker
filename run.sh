@@ -105,7 +105,7 @@ else
     echo "OpenMRS user created."
 
     # Write openmrs-runtime.properties file with linked database settings
-    OPENMRS_CONNECTION_URL="connection.url=jdbc\:mysql\://$OPENMRS_MYSQL_HOST\:$OPENMRS_MYSQL_PORT/${DB_NAME}?autoReconnect\=true&sessionVariables\=default_storage_engine\=InnoDB&useUnicode\=true&characterEncoding\=UTF-8"
+    OPENMRS_CONNECTION_URL="connection.url=jdbc\:mysql\://mysql\:$OPENMRS_MYSQL_PORT/${DB_NAME}?autoReconnect\=true&sessionVariables\=default_storage_engine\=InnoDB&useUnicode\=true&characterEncoding\=UTF-8"
     echo "${OPENMRS_CONNECTION_URL}" >> /root/temp/openmrs-runtime.properties
     echo "connection.username=${OPENMRS_DB_USER}" >> /root/temp/openmrs-runtime.properties
     echo "connection.password=${OPENMRS_DB_PASS}" >> /root/temp/openmrs-runtime.properties
@@ -131,7 +131,7 @@ if [ -z ${EXCLUDE_OPENHMIS+x} ]; then
     TEAMCITY_REST_ARTIFACT_URL="$TEAMCITY_URL/guestAuth/app/rest/builds/buildType:BUILD_TYPE/artifacts/children/"
     ARTIFACT_XPATH="string(/files/file/content/@href)"
 
-    MODULE_PROJECT_NAMES=("commons_prod" "bbf_prod" "inv_prod" "cash_prod")
+    MODULE_PROJECT_NAMES=("commons_prod" "bbf_prod" "inv_prod" "cash_prod" "jasper_prod")
 
     # Clear openhmis module folder
     mkdir -pv ${DOWNLOAD_DIR}
@@ -165,7 +165,7 @@ rm -r /root/temp
 fi
 
 # Set custom memory options for tomcat
-export JAVA_OPTS="-Dfile.encoding=UTF-8 -server -Xms256m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+export JAVA_OPTS="-Dfile.encoding=UTF-8 -server -Xms256m -Xmx1024m"
 
 if [ -z ${DEBUGGING+x} ]; then
     echo "Debugging will not be enabled for this container.";
